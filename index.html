@@ -1,12 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style> </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Magiskt Hjärta</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    
+  <div class="heart-draw">
+    <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M10,30 
+           A20,20 0 0,1 50,30 
+           A20,20 0 0,1 90,30 
+           Q90,60 50,85 
+           Q10,60 10,30 Z"
+        fill="none"
+        stroke="#f4a7b9"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <text x="50" y="58" text-anchor="middle" fill="#f4a7b9" font-size="24" font-family="serif">A</text>
+    </svg>
+  </div>
+
+  <div id="falling-hearts-container"></div>
+
+  <script src="script.js"></script>
 </body>
 </html>

@@ -1,32 +1,326 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Magiskt Hjärta</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digitalt Kärleksbrev</title>
+    <style>
+        body {
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fff5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: auto;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.container {
+    text-align: center;
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.envelope {
+    width: 100%;
+    max-width: 300px;
+    height: 200px;
+    background-color: #f8d7da;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s;
+    z-index: 10;
+}
+
+.envelope:hover {
+    transform: scale(1.05);
+}
+
+.envelope:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-left: 50% solid transparent;
+    border-right: 50% solid transparent;
+    border-top: 100px solid #e9a3ad;
+    transform-origin: top;
+    transform: rotateX(0deg);
+    z-index: 3;
+    transition: all 0.3s ease-in-out;
+}
+
+.envelope.open:before {
+    transform: rotateX(180deg);
+}
+
+.envelope-flap {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    background-color: #f1b0b7;
+    border-radius: 0 0 5px 5px;
+    z-index: 2;
+}
+
+.letter {
+    position: absolute;
+    width: 93%;
+    height: 180px;
+    background-color: white;
+    bottom: 0;
+    left: 3.5%;
+    z-index: 5;
+    padding: 10px;
+    box-sizing: border-box;
+    font-family: 'Dancing Script', cursive;
+    font-size: 20px;
+    text-align: left;
+    opacity: 0;
+    transition: opacity 0.5s;
+    transform: translateY(100px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.letter.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.letter.expanded {
+    animation: riseUp 1s ease-out forwards;
+    height: 500px;
+    overflow-y: auto;
+}
+
+.letter-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+.letter-content.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.letter-line {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    margin: 8px 0;
+}
+
+.letter-line.visible {
+    transform: translateY(-20px);
+    opacity: 1;
+}
+
+.heart {
+    position: absolute;
+    font-size: 20px;
+    color: #ff6b81;
+    animation: float 3s ease-in-out infinite;
+    opacity: 0;
+    z-index: 20;
+}
+
+.flower {
+    position: absolute;
+    font-size: 30px;
+    animation: bloom 2s forwards;
+    opacity: 0;
+    z-index: 20;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) rotate(20deg);
+        opacity: 0;
+    }
+}
+
+@keyframes bloom {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+h1 {
+    color: #d23669;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+}
+
+.instructions {
+    margin-top: 20px;
+    color: #888;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+@keyframes riseUp {
+    0% {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* RESPONSIVE ADJUSTMENTS */
+@media (max-width: 400px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .letter {
+        font-size: 18px;
+        padding: 8px;
+    }
+
+    .letter.expanded {
+        height: 420px;
+    }
+
+    .flower {
+        font-size: 24px;
+    }
+
+    .heart {
+        font-size: 18px;
+    }
+}
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="heart-draw">
-    <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M10,30 
-           A20,20 0 0,1 50,30 
-           A20,20 0 0,1 90,30 
-           Q90,60 50,85 
-           Q10,60 10,30 Z"
-        fill="none"
-        stroke="#f4a7b9"
-        stroke-width="3"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <text x="50" y="58" text-anchor="middle" fill="#f4a7b9" font-size="24" font-family="serif">A</text>
-    </svg>
-  </div>
+    <div class="container">
+        <h1>Ett brev till dig Adrieli❤️</h1>
+        
+        <div class="envelope" id="envelope">
+            <div class="envelope-flap"></div>
+            <div class="letter" id="letter">
+                <div class="letter-content" id="letterContent">
+                  <p class="letter-line">Min råtta 🐭🐀</p>
+                  <p class="letter-line">Hoppas din dag har varit riktigt bra,🌺</p>
+                  <p class="letter-line">Jag har tänkt lite på dig, inte för att jag är besatt… bara lite...⁉️</p>
+                  <p class="letter-line">Ditt skratt och leende får mig att smälta🌷</p>
+                  <p class="letter-line">Ännu igen tack för en supermysig dejt.</p>
+                  <p class="letter-line">Jag ser fram emot att ses igen (och kanske sno en till kram?).</p>
+                  <p class="letter-line">Din åsna 🐋</p>
+                    <br>
+                    <p class="letter-line">p.s jag suger på skriva... </p>
+                </div>
+            </div>
+        </div>
+        
+        <p class="instructions">Klicka på kuvertet för att öppna brevet</p>
+    </div>
 
-  <div id="falling-hearts-container"></div>
-
-  <script src="script.js"></script>
+    <script>
+        const envelope = document.getElementById('envelope');
+        const letter = document.getElementById('letter');
+        const letterContent = document.getElementById('letterContent');
+        const lines = document.querySelectorAll('.letter-line');
+        const container = document.querySelector('.container');
+        
+        envelope.addEventListener('click', function() {
+            this.classList.add('open');
+            letter.classList.add('show');
+            
+            setTimeout(() => {
+                letterContent.classList.add('show');
+                // Göra brevet större för att få plats med all text
+                letter.classList.add('expanded');
+                animateLines();
+            }, 1000);
+            
+            this.style.pointerEvents = 'none';
+            document.querySelector('.instructions').style.display = 'none';
+        });
+        
+        function animateLines() {
+            lines.forEach((line, index) => {
+                setTimeout(() => {
+                    line.classList.add('visible');
+                    
+                    // Skapa hjärtan eller blommor vid varje ny rad
+                    if (index % 2 === 0) {
+                        createHeart();
+                    } else {
+                        createFlower();
+                    }
+                }, index * 1500);
+            });
+        }
+        
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.classList.add('heart');
+            
+            // Slumpmässig position nära brevet
+            const x = Math.random() * 200 + 50;
+            const delay = Math.random() * 2;
+            
+            heart.style.left = `${x}px`;
+            heart.style.top = `${letter.offsetTop + 50}px`;
+            heart.style.animationDelay = `${delay}s`;
+            
+            container.appendChild(heart);
+            
+            // Ta bort hjärtat efter animationen
+            setTimeout(() => {
+                heart.remove();
+            }, 3000);
+        }
+        
+        function createFlower() {
+            const flowers = ['🌸', '🌹', '🌺', '🌻', '🌼'];
+            const flower = document.createElement('div');
+            flower.innerHTML = flowers[Math.floor(Math.random() * flowers.length)];
+            flower.classList.add('flower');
+            
+            // Slumpmässig position nära brevet
+            const x = Math.random() * 200 + 50;
+            
+            flower.style.left = `${x}px`;
+            flower.style.top = `${letter.offsetTop + 50}px`;
+            
+            container.appendChild(flower);
+            
+            // Låt blomman stanna kvar
+            setTimeout(() => {
+                flower.style.opacity = '1';
+            }, 100);
+        }
+    </script>
 </body>
 </html>

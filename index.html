@@ -1,326 +1,412 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digitalt Kärleksbrev</title>
-    <style>
-        body {
-
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #fff5f5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    overflow: auto;
-    flex-direction: column;
-    padding: 20px;
-}
-
-.container {
-    text-align: center;
-    position: relative;
-    width: 100%;
-    max-width: 400px;
-}
-
-.envelope {
-    width: 100%;
-    max-width: 300px;
-    height: 200px;
-    background-color: #f8d7da;
-    border-radius: 5px;
-    position: relative;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s;
-    z-index: 10;
-}
-
-.envelope:hover {
-    transform: scale(1.05);
-}
-
-.envelope:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    width: 0;
-    height: 0;
-    border-left: 50% solid transparent;
-    border-right: 50% solid transparent;
-    border-top: 100px solid #e9a3ad;
-    transform-origin: top;
-    transform: rotateX(0deg);
-    z-index: 3;
-    transition: all 0.3s ease-in-out;
-}
-
-.envelope.open:before {
-    transform: rotateX(180deg);
-}
-
-.envelope-flap {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 100px;
-    background-color: #f1b0b7;
-    border-radius: 0 0 5px 5px;
-    z-index: 2;
-}
-
-.letter {
-    position: absolute;
-    width: 93%;
-    height: 180px;
-    background-color: white;
-    bottom: 0;
-    left: 3.5%;
-    z-index: 5;
-    padding: 10px;
-    box-sizing: border-box;
-    font-family: 'Dancing Script', cursive;
-    font-size: 20px;
-    text-align: left;
-    opacity: 0;
-    transition: opacity 0.5s;
-    transform: translateY(100px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-.letter.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.letter.expanded {
-    animation: riseUp 1s ease-out forwards;
-    height: 500px;
-    overflow-y: auto;
-}
-
-.letter-content {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    padding: 15px;
-    box-sizing: border-box;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s, transform 0.5s;
-}
-
-.letter-content.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.letter-line {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-    margin: 8px 0;
-}
-
-.letter-line.visible {
-    transform: translateY(-20px);
-    opacity: 1;
-}
-
-.heart {
-    position: absolute;
-    font-size: 20px;
-    color: #ff6b81;
-    animation: float 3s ease-in-out infinite;
-    opacity: 0;
-    z-index: 20;
-}
-
-.flower {
-    position: absolute;
-    font-size: 30px;
-    animation: bloom 2s forwards;
-    opacity: 0;
-    z-index: 20;
-}
-
-@keyframes float {
-    0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Digitalt Kärleksbrev</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    100% {
-        transform: translateY(-100px) rotate(20deg);
-        opacity: 0;
-    }
-}
 
-@keyframes bloom {
-    0% {
-        transform: scale(0.3);
-        opacity: 0;
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #ffe6e6 0%, #ffb6c1 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
-    100% {
-        transform: scale(1);
-        opacity: 1;
+
+    .container {
+      text-align: center;
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      padding: 20px;
     }
-}
 
-h1 {
-    color: #d23669;
-    margin-bottom: 30px;
-    font-size: 1.8rem;
-}
-
-.instructions {
-    margin-top: 20px;
-    color: #888;
-    font-style: italic;
-    font-size: 0.9rem;
-}
-
-@keyframes riseUp {
-    0% {
-        transform: translateY(100px);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-/* RESPONSIVE ADJUSTMENTS */
-@media (max-width: 400px) {
     h1 {
-        font-size: 1.5rem;
+      color: #d23669;
+      margin-bottom: 40px;
+      font-size: 2.2rem;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background-color: #f8a5c2;
+      border-radius: 3px;
+    }
+
+    .envelope-wrapper {
+      perspective: 1000px;
+      margin-bottom: 30px;
+      position: relative;
+      height: 220px;
+    }
+
+    .envelope {
+      width: 100%;
+      max-width: 320px;
+      height: 220px;
+      margin: 0 auto;
+      background: linear-gradient(to bottom, #ffb6c1, #f8a5c2);
+      border-radius: 10px;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform-style: preserve-3d;
+    }
+
+    .envelope:hover {
+      transform: scale(1.05) translateY(-5px);
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background-color: #f8a5c2;
+      border-radius: 10px 10px 0 0;
+      transform-origin: bottom;
+      transform-style: preserve-3d;
+      transition: transform 0.8s ease;
+      z-index: 5;
+    }
+
+    .envelope-flap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #f8a5c2 0%, #ffb6c1 100%);
+      clip-path: polygon(0 100%, 50% 0, 100% 100%);
+      border-radius: 10px 10px 0 0;
+    }
+
+    .envelope-seal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      background-color: #e74c6f;
+      border-radius: 50%;
+      z-index: 6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: opacity 0.3s;
+    }
+
+    .envelope.open .envelope-flap {
+      transform: rotateX(180deg);
+      pointer-events: none;
+    }
+
+    .envelope.open .envelope-seal {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* COMPLETELY REWORKED LETTER STYLES */
+    .letter-container {
+      position: absolute;
+      width: 100%;
+      max-width: 320px;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 0;
+      z-index: 1;
+      height: 0;
+      transition: height 0.6s ease;
     }
 
     .letter {
-        font-size: 18px;
-        padding: 8px;
+      background: linear-gradient(to bottom, #fff 98%, #f8f8f8 100%);
+      border-radius: 5px;
+      padding: 20px;
+      width: 90%;
+      margin: 0 auto;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      max-height: 100%;
+      overflow-y: auto;
+      transform: translateY(100%);
+      transition: transform 0.6s ease;
     }
 
-    .letter.expanded {
-        height: 420px;
+    .envelope.open + .letter-container {
+      height: 70vh;
     }
 
-    .flower {
-        font-size: 24px;
+    .envelope.open + .letter-container .letter {
+      transform: translateY(-60px);
+    }
+
+    .letter-content {
+      opacity: 0;
+      transition: opacity 0.6s 0.3s;
+    }
+
+    .letter-content.show {
+      opacity: 1;
+    }
+
+    .letter::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .letter::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    .letter::-webkit-scrollbar-thumb {
+      background: #f8a5c2;
+      border-radius: 10px;
+    }
+
+    .letter-line {
+      font-family: 'Dancing Script', cursive;
+      font-size: 22px;
+      margin: 15px 0;
+      color: #444;
+      text-align: left;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s, transform 0.8s;
+    }
+
+    .letter-line.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .letter-line:last-child {
+      font-size: 18px;
+      font-style: italic;
+      color: #888;
+      margin-top: 30px;
+      margin-bottom: 20px;
+    }
+
+    .signature {
+      font-size: 24px;
+      margin-top: 30px;
+      text-align: right;
+    }
+
+    .instructions {
+      margin-top: 15px;
+      color: #d23669;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 10px 15px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 20px;
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(210, 54, 105, 0.4);
+      }
+      70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(210, 54, 105, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(210, 54, 105, 0);
+      }
+    }
+
+    .heart, .flower {
+      position: absolute;
+      font-size: 28px;
+      opacity: 0;
+      z-index: 20;
+      filter: drop-shadow(0 3px 5px rgba(0,0,0,0.1));
     }
 
     .heart {
-        font-size: 18px;
+      color: #ff6b81;
+      animation: float 4s ease-in-out infinite;
     }
-}
-    </style>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+
+    .flower {
+      animation: bloom 2.5s forwards;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(-150px) rotate(20deg); opacity: 0; }
+    }
+
+    @keyframes bloom {
+      0% { transform: scale(0.3); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: scale(1); opacity: 0.8; }
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: white;
+      box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+      animation: twinkle 3s infinite;
+      opacity: 0;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0; transform: scale(0.5); }
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 1.8rem; }
+      .letter-line { font-size: 20px; }
+      .envelope, .envelope-wrapper { max-width: 280px; height: 200px; }
+      .envelope.open + .letter-container { height: 50vh; }
+      .envelope.open + .letter-container .letter { transform: translateY(-40px); }
+    }
+
+    @media (max-width: 400px) {
+      h1 { font-size: 1.6rem; }
+      .letter-line { font-size: 18px; }
+      .envelope, .envelope-wrapper { max-width: 250px; height: 180px; }
+      .envelope.open + .letter-container { height: 45vh; }
+      .envelope.open + .letter-container .letter { transform: translateY(-30px); }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Ett brev till dig Adrieli❤️</h1>
-        
-        <div class="envelope" id="envelope">
-            <div class="envelope-flap"></div>
-            <div class="letter" id="letter">
-                <div class="letter-content" id="letterContent">
-                  <p class="letter-line">Min råtta 🐭🐀</p>
-                  <p class="letter-line">Hoppas din dag har varit riktigt bra,🌺</p>
-                  <p class="letter-line">Jag har tänkt lite på dig, inte för att jag är besatt… bara lite...⁉️</p>
-                  <p class="letter-line">Ditt skratt och leende får mig att smälta🌷</p>
-                  <p class="letter-line">Ännu igen tack för en supermysig dejt.</p>
-                  <p class="letter-line">Jag ser fram emot att ses igen (och kanske sno en till kram?).</p>
-                  <p class="letter-line">Din åsna 🐋</p>
-                    <br>
-                    <p class="letter-line">p.s jag suger på skriva... </p>
-                </div>
-            </div>
+  <div class="container">
+    <h1>Ett brev till dig Adrieli❤️</h1>
+
+    <div class="envelope-wrapper">
+      <div class="envelope" id="envelope">
+        <div class="envelope-flap"></div>
+        <div class="envelope-seal">❤️</div>
+      </div>
+      <div class="letter-container">
+        <div class="letter" id="letter">
+          <div class="letter-content" id="letterContent">
+            <p class="letter-line">Min råtta 🐭🐀</p>
+            <p class="letter-line">Hoppas din dag har varit riktigt bra,🌺</p>
+            <p class="letter-line">Jag har tänkt lite på dig, inte för att jag är besatt… bara lite...⁉️</p>
+            <p class="letter-line">Ditt skratt och leende får mig att smälta🌷</p>
+            <p class="letter-line">Ännu igen tack för en supermysig dejt.</p>
+            <p class="letter-line">Jag ser fram emot att ses igen (och kanske sno en till kram?).</p>
+            <p class="letter-line">Och om du läser ända hit… du är bäst. 💕</p>
+            <p class="letter-line signature">Din åsna 🐋</p>
+            <p class="letter-line">p.s jag suger på skriva... </p>
+          </div>
         </div>
-        
-        <p class="instructions">Klicka på kuvertet för att öppna brevet</p>
+      </div>
     </div>
 
-    <script>
-        const envelope = document.getElementById('envelope');
-        const letter = document.getElementById('letter');
-        const letterContent = document.getElementById('letterContent');
-        const lines = document.querySelectorAll('.letter-line');
-        const container = document.querySelector('.container');
-        
-        envelope.addEventListener('click', function() {
-            this.classList.add('open');
-            letter.classList.add('show');
-            
-            setTimeout(() => {
-                letterContent.classList.add('show');
-                // Göra brevet större för att få plats med all text
-                letter.classList.add('expanded');
-                animateLines();
-            }, 1000);
-            
-            this.style.pointerEvents = 'none';
-            document.querySelector('.instructions').style.display = 'none';
-        });
-        
-        function animateLines() {
-            lines.forEach((line, index) => {
-                setTimeout(() => {
-                    line.classList.add('visible');
-                    
-                    // Skapa hjärtan eller blommor vid varje ny rad
-                    if (index % 2 === 0) {
-                        createHeart();
-                    } else {
-                        createFlower();
-                    }
-                }, index * 1500);
-            });
-        }
-        
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.innerHTML = '❤️';
-            heart.classList.add('heart');
-            
-            // Slumpmässig position nära brevet
-            const x = Math.random() * 200 + 50;
-            const delay = Math.random() * 2;
-            
-            heart.style.left = `${x}px`;
-            heart.style.top = `${letter.offsetTop + 50}px`;
-            heart.style.animationDelay = `${delay}s`;
-            
-            container.appendChild(heart);
-            
-            // Ta bort hjärtat efter animationen
-            setTimeout(() => {
-                heart.remove();
-            }, 3000);
-        }
-        
-        function createFlower() {
-            const flowers = ['🌸', '🌹', '🌺', '🌻', '🌼'];
-            const flower = document.createElement('div');
-            flower.innerHTML = flowers[Math.floor(Math.random() * flowers.length)];
-            flower.classList.add('flower');
-            
-            // Slumpmässig position nära brevet
-            const x = Math.random() * 200 + 50;
-            
-            flower.style.left = `${x}px`;
-            flower.style.top = `${letter.offsetTop + 50}px`;
-            
-            container.appendChild(flower);
-            
-            // Låt blomman stanna kvar
-            setTimeout(() => {
-                flower.style.opacity = '1';
-            }, 100);
-        }
-    </script>
+    <p class="instructions" id="instructions">Klicka på kuvertet för att öppna brevet</p>
+  </div>
+
+  <script>
+    const envelope = document.getElementById('envelope');
+    const letter = document.getElementById('letter');
+    const letterContent = document.getElementById('letterContent');
+    const lines = document.querySelectorAll('.letter-line');
+    const container = document.querySelector('.container');
+    const instructions = document.getElementById('instructions');
+
+    // Sparkles
+    for (let i = 0; i < 30; i++) {
+      const sparkle = document.createElement('div');
+      sparkle.classList.add('sparkle');
+      sparkle.style.left = `${Math.random() * 100}vw`;
+      sparkle.style.top = `${Math.random() * 100}vh`;
+      sparkle.style.width = sparkle.style.height = `${Math.random() * 3 + 2}px`;
+      sparkle.style.animationDelay = `${Math.random() * 3}s`;
+      document.body.appendChild(sparkle);
+    }
+
+    envelope.addEventListener('click', function () {
+      this.classList.add('open');
+      setTimeout(() => {
+        letterContent.classList.add('show');
+        animateLines();
+      }, 600);
+      this.style.pointerEvents = 'none';
+      instructions.style.display = 'none';
+    });
+
+    function animateLines() {
+      lines.forEach((line, index) => {
+        setTimeout(() => {
+          line.classList.add('visible');
+          if (index % 2 === 0) {
+            createHearts(2);
+          } else {
+            createFlowers(2);
+          }
+        }, index * 800);
+      });
+    }
+
+    function createHearts(count) {
+      for (let i = 0; i < count; i++) {
+        const heart = document.createElement('div');
+        heart.innerHTML = '❤️';
+        heart.classList.add('heart');
+        heart.style.left = `${Math.random() * 300 + 100}px`;
+        heart.style.top = `${Math.random() * 100 + 200}px`;
+        heart.style.animationDelay = `${Math.random() * 1.5}s`;
+        heart.style.transform = `scale(${Math.random() * 0.5 + 0.8})`;
+        container.appendChild(heart);
+        setTimeout(() => heart.remove(), 4000);
+      }
+    }
+
+    function createFlowers(count) {
+      const flowers = ['🌸', '🌹', '🌺', '🌻', '🌼', '🌷'];
+      for (let i = 0; i < count; i++) {
+        const flower = document.createElement('div');
+        flower.innerHTML = flowers[Math.floor(Math.random() * flowers.length)];
+        flower.classList.add('flower');
+        flower.style.left = `${Math.random() * 300 + 100}px`;
+        flower.style.top = `${Math.random() * 100 + 200}px`;
+        flower.style.animationDelay = `${Math.random() * 0.5}s`;
+        flower.style.transform = `scale(${Math.random() * 0.4 + 0.8})`;
+        container.appendChild(flower);
+        setTimeout(() => flower.remove(), 2500);
+      }
+    }
+  </script>
 </body>
 </html>
